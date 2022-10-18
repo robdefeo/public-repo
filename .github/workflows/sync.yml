@@ -18,9 +18,7 @@ jobs:
               run: sudo apt update && echo Y | sudo apt install git
 
             - name: Configure git
-              env:
-                TOKEN: ${{ secrets.ACCESS_TOKEN }}
-              run: git config --global url."https://${TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+              run: git config --global url."https://${{ secrets.ACCESS_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
             - name: Clone repo
               run: git clone https://github.com/zubeyiro/private-repo.git
