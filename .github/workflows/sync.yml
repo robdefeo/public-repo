@@ -23,7 +23,7 @@ jobs:
               run: git config --global url."https://${TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
             - name: Clone repo
-              run: git clone git@github.com:zubeyiro/private-repo.git
+              run: git clone https://github.com/zubeyiro/private-repo.git
             
             - name: List directory
               run: ls -all
