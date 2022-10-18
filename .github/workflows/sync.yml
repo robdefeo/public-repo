@@ -1,0 +1,29 @@
+name: sync-repo
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    sync:
+        name: Sync
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Install git
+              run: apt update && echo Y | apt install git
+
+            - name: Configure git
+              env:
+                TOKEN: ${{ secrets.ACCESS_TOKEN }}
+              run: git config --global url."https://${TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+
+            - name: Clone repo
+              run: git clone git@github.com:zubeyiro/private-repo.git
+            
+            - name: List directory
+              run: ls -all
