@@ -15,7 +15,7 @@ jobs:
                   fetch-depth: 0
 
             - name: Install git
-              run: apt update && echo Y | apt install git
+              run: sudo apt update && echo Y | sudo apt install git
 
             - name: Configure git
               env:
