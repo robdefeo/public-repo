@@ -1,3 +1,0 @@
-/*
-this file has been created in private repo
-*/
