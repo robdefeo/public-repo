@@ -21,18 +21,17 @@ jobs:
                 chmod +x bazel.sh
                 ./bazel.sh --user
                 export PATH="$PATH:$HOME/bin"
+
+            - name: Configure git
+              run: git config --global url."https://${{ secrets.ACCESS_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+
+            - name: Prepare copybara
+              run: |
                 git clone https://github.com/google/copybara.git
                 cd copybara
                 bazel build //java/com/google/copybara
                 bazel build //java/com/google/copybara:copybara_deploy.jar
                 cd -
-                java -jar copybara/bazel-bin/java/com/google/copybara/copybara_deploy.jar copy.bara.sky --force --init-history
-
-            - name: Configure git
-              run: git config --global url."https://${{ secrets.ACCESS_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-
-            - name: Clone repo
-              run: git clone https://github.com/zubeyiro/private-repo.git
             
-            - name: List directory
-              run: ls -all
+            - name: Sync repos
+              run: java -jar copybara/bazel-bin/java/com/google/copybara/copybara_deploy.jar copy.bara.sky --force --init-history
