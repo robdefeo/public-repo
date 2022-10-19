@@ -1,5 +1,5 @@
-sourceUrl = "ssh://git@github.com:zubeyiro/public-repo.git"
-destinationUrl = "ssh://git@github.com:zubeyiro/private-repo.git"
+sourceUrl = "git@github.com:zubeyiro/public-repo.git"
+destinationUrl = "git@github.com:zubeyiro/private-repo.git"
 
 core.workflow(
     name = "default",
@@ -7,16 +7,15 @@ core.workflow(
         url = sourceUrl,
         ref = "main",
     ),
-    destination = git.github_pr_destination(
+    destination = git.destination(
         url = destinationUrl,
-        destination_ref = "main",
-        pr_branch = "from_public_repo",
-        title = "pr from public repo",
-        body = "pr content",
-        integrates = [],
+        fetch = "main",
+        push = "main",
     ),
+    origin_files = glob(['*'], exclude = ['.github/**']),
     destination_files = glob(["public_app/**"]),
-    authoring = authoring.pass_thru("Copybara <copybara@example.com>"),
+    authoring = authoring.pass_thru("Sync <sync@mailchain.com>"),
+    mode = "ITERATIVE",
     transformations = [
         core.move("", "public_app"),
     ],
