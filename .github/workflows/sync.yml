@@ -23,7 +23,10 @@ jobs:
                 export PATH="$PATH:$HOME/bin"
 
             - name: Configure git
-              run: git config --global url."https://${{ secrets.ACCESS_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+              run: |
+                git config --global url."https://${{ secrets.ACCESS_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+                git config --global user.email "zubeyrozturk@gmail.com"
+                git config --global user.name "zubeyiro"
 
             - name: Prepare copybara
               run: |
