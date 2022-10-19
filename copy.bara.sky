@@ -1,5 +1,5 @@
-sourceUrl = "git@github.com:zubeyiro/public-repo.git"
-destinationUrl = "git@github.com:zubeyiro/private-repo.git"
+sourceUrl = "https://github.com/zubeyiro/public-repo.git"
+destinationUrl = "https://github.com/zubeyiro/private-repo.git"
 
 core.workflow(
     name = "default",
@@ -12,7 +12,7 @@ core.workflow(
         fetch = "main",
         push = "main",
     ),
-    origin_files = glob(['*'], exclude = ['.github/**']),
+    origin_files = glob(['*'], exclude = ['.github/**', 'copy.bara.sky']),
     destination_files = glob(["public_app/**"]),
     authoring = authoring.pass_thru("Sync <sync@mailchain.com>"),
     mode = "ITERATIVE",
