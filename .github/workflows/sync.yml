@@ -14,8 +14,19 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Install git
-              run: sudo apt update && echo Y | sudo apt install git
+            - name: Install tools
+              run: |
+                echo Y | sudo apt install g++ unzip zip openjdk-11-jdk curl git
+                curl -L https://github.com/bazelbuild/bazel/releases/download/6.0.0-pre.20220922.1/bazel-6.0.0-pre.20220922.1-installer-linux-x86_64.sh > bazel.sh
+                chmod +x bazel.sh
+                ./bazel.sh --user
+                export PATH="$PATH:$HOME/bin"
+                git clone https://github.com/google/copybara.git
+                cd copybara
+                bazel build //java/com/google/copybara
+                bazel build //java/com/google/copybara:copybara_deploy.jar
+                cd -
+                java -jar copybara/bazel-bin/java/com/google/copybara/copybara_deploy.jar copy.bara.sky --force --init-history
 
             - name: Configure git
               run: git config --global url."https://${{ secrets.ACCESS_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
