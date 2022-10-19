@@ -1,3 +1,3 @@
 /*
-this file lives inside public repo
+This file should not live inside public repo
 */

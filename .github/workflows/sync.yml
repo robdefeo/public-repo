@@ -1,0 +1,40 @@
+name: sync-repo
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    sync:
+        name: Sync
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Install tools
+              run: |
+                echo Y | sudo apt install g++ unzip zip openjdk-11-jdk curl git
+                curl -L https://github.com/bazelbuild/bazel/releases/download/6.0.0-pre.20220922.1/bazel-6.0.0-pre.20220922.1-installer-linux-x86_64.sh > bazel.sh
+                chmod +x bazel.sh
+                ./bazel.sh --user
+                export PATH="$PATH:$HOME/bin"
+
+            - name: Configure git
+              run: |
+                git config --global url."https://${{ secrets.ACCESS_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+                git config --global user.email "zubeyrozturk@gmail.com"
+                git config --global user.name "zubeyiro"
+
+            - name: Prepare copybara
+              run: |
+                git clone https://github.com/google/copybara.git
+                cd copybara
+                bazel build //java/com/google/copybara
+                bazel build //java/com/google/copybara:copybara_deploy.jar
+                cd -
+            
+            - name: Sync repos
+              run: java -jar copybara/bazel-bin/java/com/google/copybara/copybara_deploy.jar copy.bara.sky --force --init-history
