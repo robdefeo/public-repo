@@ -1,3 +1,0 @@
-/*
-this comes from fully automated pipeline
-*/
