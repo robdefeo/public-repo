@@ -1,3 +1,3 @@
 /*
-from public to private
+from private to public
 */
