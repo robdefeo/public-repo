@@ -1,3 +1,3 @@
 /*
-from private to public
+this file lives in public repo
 */
