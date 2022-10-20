@@ -1,3 +1,3 @@
 /*
-This file should not live inside public repo
+this is private repo origin file
 */
